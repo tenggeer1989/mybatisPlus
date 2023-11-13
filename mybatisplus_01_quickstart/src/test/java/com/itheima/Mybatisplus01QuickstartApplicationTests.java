@@ -1,0 +1,58 @@
+package com.itheima;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.itheima.dao.UserDao;
+import com.itheima.domain.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+@SpringBootTest
+class Mybatisplus01QuickstartApplicationTests {
+
+	@Autowired
+	private UserDao userDao;
+
+	@Test
+	void testSave(){
+		User user = new User();
+		user.setName("黑马程序员");
+		user.setAge(18);
+		user.setGender(1);
+		user.setPhone("13700001234");
+		userDao.insert(user);
+	}
+
+	// @Test
+	// void testDelete(){
+	// 	userDao.deleteById()
+	// }
+
+	@Test
+	void testUpdate(){
+		User user = new User();
+		user.setName("黑马程序员");
+		user.setAge(20);
+		userDao.updateById(user);
+	}
+	@Test
+	void testGetAll() {
+		List<User> userList = userDao.selectList(null);
+		System.out.println(userList);
+	}
+
+	@Test
+	void testGetByPage(){
+		IPage page = new Page(2,3);
+		userDao.selectPage(page,null);
+		System.out.println("当前页码值：" + page.getCurrent());
+		System.out.println("每页显示数：" + page.getSize());
+		System.out.println("一共多少页：" + page.getPages());
+		System.out.println("一共多少条数据：" + page.getTotal());
+		System.out.println("数据：" + page.getRecords());
+	}
+
+}
